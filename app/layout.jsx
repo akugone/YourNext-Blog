@@ -7,10 +7,10 @@ export const metadata = {
   description: 'This is the first verion of the WILT project',
 };
 
-const Rootlayout = ({ children }) => {
-  return (
-    <html lang='en'>
-      <body>
+const Rootlayout = ({ children }) => (
+  <html lang='en'>
+    <body>
+      <Provider>
         <div className='main'>
           <div className='gradient'></div>
         </div>
@@ -18,9 +18,9 @@ const Rootlayout = ({ children }) => {
           <Nav />
           {children}
         </main>
-      </body>
-    </html>
-  );
-};
+      </Provider>
+    </body>
+  </html>
+);
 
 export default Rootlayout;
