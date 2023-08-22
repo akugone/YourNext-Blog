@@ -48,7 +48,7 @@ const Nav = () => {
                 src={
                   session?.user?.image
                     ? session.user.image
-                    : '/assets/images/logo.svg'
+                    : '/assets/images/raccoon.png'
                 }
                 width={37}
                 height={37}
