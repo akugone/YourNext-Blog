@@ -1,7 +1,9 @@
 import '@styles/globals.css';
+import Nav from '@components/Nav';
+import Provider from '@components/Provider';
 
 export const metadata = {
-  title: 'WILT version 1',
+  title: 'WILT',
   description: 'This is the first verion of the WILT project',
 };
 
@@ -12,7 +14,10 @@ const Rootlayout = ({ children }) => {
         <div className='main'>
           <div className='gradient'></div>
         </div>
-        <main className='app'>{children}</main>
+        <main className='app'>
+          <Nav />
+          {children}
+        </main>
       </body>
     </html>
   );
