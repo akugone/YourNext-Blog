@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import Form from '@components/Form';
 
 const CreateHint = () => {
   const router = useRouter();
   const [submitting, setIsSubmitting] = useState(false);
   const [post, setPost] = useState({ hint: '', tag: '' });
+  const { data: session } = useSession();
 
   const createHint = async e => {
     e.preventDefault();
@@ -18,6 +20,7 @@ const CreateHint = () => {
         method: 'POST',
         body: JSON.stringify({
           hint: post.hint,
+          userId: session?.user.id,
           tag: post.tag,
         }),
       });
