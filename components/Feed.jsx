@@ -5,7 +5,7 @@ import HintCard from '@components/HintCard';
 
 const HintCardList = ({ data, handleTagClick }) => {
   return (
-    <div className='mt-16 prompt_layout'>
+    <div className='mt-16 hint_layout'>
       {data.map(post => (
         <HintCard key={post._id} post={post} handleTagClick={handleTagClick} />
       ))}
@@ -15,11 +15,22 @@ const HintCardList = ({ data, handleTagClick }) => {
 
 const Feed = () => {
   const [searchText, setSearchText] = useState('');
+  const [posts, setAllPosts] = useState([]);
   console.log(searchText);
 
   const handSearchChange = e => {
     setSearchText(e.target.value);
   };
+
+  const fetchPosts = async () => {
+    const response = await fetch('/api/hint');
+    const data = await response.json();
+    setAllPosts(data);
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   return (
     <section className='feed'>
@@ -32,7 +43,7 @@ const Feed = () => {
           className='search_input peer '
         />
       </form>
-      <HintCardList data={[]} handletagClick={() => {}} />
+      <HintCardList data={posts} handletagClick={() => {}} />
     </section>
   );
 };
