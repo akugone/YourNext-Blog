@@ -15,6 +15,8 @@ const CreateHint = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // TODO security breach the userId should no be handle by the client
+
     try {
       const response = await fetch('/api/hint/new', {
         method: 'POST',
