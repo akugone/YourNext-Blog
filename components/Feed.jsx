@@ -1,49 +1,89 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import HintCard from '@components/HintCard';
-
-const HintCardList = ({ data, handleTagClick }) => {
-  return (
-    <div className='mt-16 hint_layout'>
-      {data.map(post => (
-        <HintCard key={post._id} post={post} handleTagClick={handleTagClick} />
-      ))}
-    </div>
-  );
-};
+import HintCardList from './HintCardList';
 
 const Feed = () => {
+  //store all posts
+  const [allPosts, setAllPosts] = useState([]);
+
+  // Search states
   const [searchText, setSearchText] = useState('');
-  const [posts, setAllPosts] = useState([]);
-  console.log(searchText);
+  const [searchTimeout, setSearchTimeout] = useState(null);
+  const [searchedResults, setSearchedResults] = useState([]);
 
-  const handSearchChange = e => {
-    setSearchText(e.target.value);
-  };
-
+  // Get all the posts from the database
   const fetchPosts = async () => {
     const response = await fetch('/api/hint');
     const data = await response.json();
+
+    // then store the data in the allPosts
     setAllPosts(data);
   };
 
+  // fetch all posts when the component is mounted
   useEffect(() => {
     fetchPosts();
   }, []);
+
+  /**
+   * Filters the posts based on the search text.
+   * @param {string} searchtext - The text to search for.
+   * @returns {Array} - An array of posts that match the search text.
+   */
+  const filterHints = searchtext => {
+    const regex = new RegExp(searchtext, 'i'); // 'i' flag for case-insensitive search
+    return allPosts.filter(
+      item =>
+        regex.test(item.creator.username) ||
+        regex.test(item.tag) ||
+        regex.test(item.hint),
+    );
+  };
+
+  /**
+   * Handles the change event of the search input field.
+   * @param {Object} e - The event object.
+   */
+  const handleSearchChange = e => {
+    clearTimeout(searchTimeout);
+    setSearchText(e.target.value);
+
+    // debounce method
+    setSearchTimeout(
+      setTimeout(() => {
+        const searchResult = filterHints(e.target.value);
+        setSearchedResults(searchResult);
+      }, 500),
+    );
+  };
+
+  const handleTagClick = tagName => {
+    setSearchText(tagName);
+
+    const searchResult = filterHints(tagName);
+    setSearchedResults(searchResult);
+  };
 
   return (
     <section className='feed'>
       <form className='relative w-full flex-center'>
         <input
           type='text'
-          placeholder='search you tips'
-          onChange={handSearchChange}
+          placeholder='Search for a tag or a username'
           value={searchText}
-          className='search_input peer '
+          onChange={handleSearchChange}
+          required
+          className='search_input peer'
         />
       </form>
-      <HintCardList data={posts} handletagClick={() => {}} />
+
+      {/* All Hints */}
+      {searchText ? (
+        <HintCardList data={searchedResults} handleTagClick={handleTagClick} />
+      ) : (
+        <HintCardList data={allPosts} handleTagClick={handleTagClick} />
+      )}
     </section>
   );
 };
