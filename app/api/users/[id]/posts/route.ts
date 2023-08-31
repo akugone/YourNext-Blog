@@ -1,8 +1,13 @@
 import Hint from '@/models/hint';
+import type { NextApiRequest } from 'next';
 import { connectToDB } from '@/utils/database';
 import { NextResponse } from 'next/server';
 
-export const GET = async (request, { params }) => {
+interface Params {
+  id: string;
+}
+
+export const GET = async (request: NextApiRequest, { params }) => {
   try {
     await connectToDB();
 

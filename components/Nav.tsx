@@ -8,7 +8,8 @@ import { signIn, signOut, useSession, getProviders } from 'next-auth/react';
 
 const Nav = () => {
   const { data: session } = useSession();
-  const [providers, setProviders] = useState(null);
+  // todo : fix the typing
+  const [providers, setProviders] = useState<ProviderMap | null>(null);
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
   useEffect(() => {

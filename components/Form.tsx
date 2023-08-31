@@ -1,7 +1,16 @@
 import Link from 'next/link';
 import React from 'react';
 
-const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
+// todo : bad typing
+interface FormProps {
+  type: string;
+  post: any;
+  setPost: React.Dispatch<React.SetStateAction<any>>;
+  submitting: boolean;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+}
+
+const Form = ({ type, post, setPost, submitting, handleSubmit }: FormProps) => {
   return (
     <section className='w-full max-w-full flex-start flex-col'>
       <h1 className='head_text text-left'>

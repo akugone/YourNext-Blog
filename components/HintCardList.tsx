@@ -1,7 +1,12 @@
 import React from 'react';
 import HintCard from './HintCard';
 
-const HintCardList = ({ data, handleTagClick }) => {
+interface HintCardListProps {
+  data: any[];
+  handleTagClick?: (tag: string) => void;
+}
+
+const HintCardList = ({ data, handleTagClick }: HintCardListProps) => {
   return (
     <div className='mt-16 hint_layout'>
       {data.map(post => (

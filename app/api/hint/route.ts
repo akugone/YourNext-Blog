@@ -1,8 +1,9 @@
 import Hint from '@/models/hint';
+import type { NextApiRequest } from 'next';
 import { connectToDB } from '@/utils/database';
 import { NextResponse } from 'next/server';
 
-export const GET = async req => {
+export const GET = async (req: NextApiRequest) => {
   try {
     await connectToDB();
     const hints = await Hint.find({}).populate('creator');

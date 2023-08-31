@@ -6,14 +6,27 @@ import { useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 
-const HintCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
+interface HintCardProps {
+  // todo : check if post is correct type
+  post: any;
+  handleEdit?: (post: any) => void;
+  handleDelete?: (post: any) => void;
+  handleTagClick?: (tag: string) => void;
+}
+
+const HintCard = ({
+  post,
+  handleEdit,
+  handleDelete,
+  handleTagClick,
+}: HintCardProps) => {
   const { data: session } = useSession();
   const pathName = usePathname();
   const router = useRouter();
   const [copied, setCopied] = useState('');
 
   const handleProfileClick = () => {
-    if (post.creator._id === session?.user.id) return router.push('/profile');
+    if (post.creator._id === session?.user?.id) return router.push('/profile');
     router.push(`/profile/${post.creator._id}?name=${post.creator.username}`);
   };
 
@@ -72,7 +85,7 @@ const HintCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
         #{post.tag}
       </p>
 
-      {session?.user.id === post.creator._id && pathName === '/profile' && (
+      {session?.user?.id === post.creator._id && pathName === '/profile' && (
         <div className='mt-5 flex-center gap-4 border-t border-gray-100 pt-3'>
           <p
             className='font-inter text-sm green_gradient cursor-pointer'

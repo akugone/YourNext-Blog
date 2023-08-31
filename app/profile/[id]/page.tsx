@@ -5,7 +5,13 @@ import { useSearchParams } from 'next/navigation';
 
 import Profile from '@/components/Profile';
 
-const UserProfile = ({ params }) => {
+interface UserProfileProps {
+  params: {
+    id: string;
+  };
+}
+
+const UserProfile = ({ params }: UserProfileProps) => {
   const searchParams = useSearchParams();
   const userName = searchParams.get('name');
 

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import Profile from '@/components/Profile';
+import { IPost } from '../types';
 
 const MyProfile = () => {
   const router = useRouter();
@@ -14,25 +15,25 @@ const MyProfile = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await fetch(`/api/users/${session?.user.id}/posts`);
+      const response = await fetch(`/api/users/${session?.user?.id}/posts`);
       const data = await response.json();
 
       setMyPosts(data);
     };
 
-    if (session?.user.id) fetchPosts();
-  }, [session?.user.id]);
+    if (session?.user?.id) fetchPosts();
+  }, [session?.user?.id]);
 
-  const handleEdit = post => {
+  const handleEdit = (post: IPost) => {
     router.push(`/update-hint?id=${post._id}`);
   };
 
-  const handleDelete = async post => {
+  const handleDelete = async (post: IPost) => {
     const hasConfirmed = confirm('Are you sure you want to delete this hint?');
 
     if (hasConfirmed) {
       try {
-        await fetch(`/api/hint/${post._id.toString()}`, {
+        await fetch(`/api/hint/${post._id?.toString()}`, {
           method: 'DELETE',
         });
 
