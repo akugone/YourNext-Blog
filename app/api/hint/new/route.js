@@ -6,7 +6,6 @@ import { getServerSession } from 'next-auth/next';
 export const POST = async req => {
   const { userId, hint, tag } = await req.json();
   const session = await getServerSession(authOptions);
-  console.log('Server side', session);
 
   try {
     await connectToDB();
