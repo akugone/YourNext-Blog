@@ -1,3 +1,4 @@
+import React from 'react';
 import HintCard from './HintCard';
 
 const HintCardList = ({ data, handleTagClick }) => {

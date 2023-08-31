@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import Form from '@components/Form';
+import React from 'react';
 
 const UpdateHint = () => {
   const router = useRouter();

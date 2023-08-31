@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import HintCardList from './HintCardList';
+import React from 'react';
 
 const Feed = () => {
   //store all posts
@@ -15,7 +16,6 @@ const Feed = () => {
   // Get all the posts from the database
   const fetchPosts = async () => {
     const response = await fetch('/api/hint');
-    console.log(response);
     const data = await response.json();
 
     // then store the data in the allPosts
