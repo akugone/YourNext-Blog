@@ -1,5 +1,5 @@
-import Hint from '@models/hint';
-import { connectToDB } from '@utils/database';
+import Hint from '@/models/hint';
+import { connectToDB } from '@/utils/database';
 import { authOptions } from '../../auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth/next';
 import { NextResponse } from 'next/server';

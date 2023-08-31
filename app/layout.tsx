@@ -1,13 +1,13 @@
-import '@styles/globals.css';
-import Nav from '@components/Nav';
-import Provider from '@components/Provider';
+import '@/styles/globals.css';
+import Nav from '@/components/Nav';
+import Provider from '@/components/Provider';
 
 export const metadata = {
   title: 'WILT',
   description: 'This is the first verion of the WILT project',
 };
 
-const Rootlayout = ({ children }) => (
+const Rootlayout = ({ children }: { children: React.ReactNode }) => (
   <html lang='en'>
     <body>
       <Provider>
