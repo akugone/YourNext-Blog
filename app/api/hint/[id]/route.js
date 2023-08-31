@@ -1,16 +1,17 @@
 import Hint from '@models/hint';
 import { connectToDB } from '@utils/database';
+import { NextResponse } from 'next/server';
 
 export const GET = async (request, { params }) => {
   try {
     await connectToDB();
 
     const hint = await Hint.findById(params.id).populate('creator');
-    if (!hint) return new Response('hint Not Found', { status: 404 });
+    if (!hint) return NextResponse.json('hint Not Found', { status: 404 });
 
-    return new Response(JSON.stringify(hint), { status: 200 });
+    return NextResponse.json(hint, { status: 200 });
   } catch (error) {
-    return new Response('Internal Server Error', { status: 500 });
+    return NextResponse.json('Internal Server Error', { status: 500 });
   }
 };
 
@@ -24,7 +25,7 @@ export const PATCH = async (request, { params }) => {
     const existingHint = await Hint.findById(params.id);
 
     if (!existingHint) {
-      return new Response('Hint not found', { status: 404 });
+      return NextResponse.json('Hint not found', { status: 404 });
     }
 
     // Update the hint with new data
@@ -33,9 +34,9 @@ export const PATCH = async (request, { params }) => {
 
     await existingHint.save();
 
-    return new Response('Successfully updated the Hints', { status: 200 });
+    return NextResponse.json('Successfully updated the Hints', { status: 200 });
   } catch (error) {
-    return new Response('Error Updating Hint', { status: 500 });
+    return NextResponse.json('Error Updating Hint', { status: 500 });
   }
 };
 
@@ -46,8 +47,8 @@ export const DELETE = async (request, { params }) => {
     // Find the hint by ID and remove it
     await Hint.findByIdAndRemove(params.id);
 
-    return new Response('HInt deleted successfully', { status: 200 });
+    return NextResponse.json('Hint deleted successfully', { status: 200 });
   } catch (error) {
-    return new Response('Error deleting hint', { status: 500 });
+    return NextResponse.json('Error deleting hint', { status: 500 });
   }
 };

@@ -1,5 +1,6 @@
 import Hint from '@models/hint';
 import { connectToDB } from '@utils/database';
+import { NextResponse } from 'next/server';
 
 export const GET = async (request, { params }) => {
   try {
@@ -7,9 +8,9 @@ export const GET = async (request, { params }) => {
 
     const hints = await Hint.find({ creator: params.id }).populate('creator');
 
-    return new Response(JSON.stringify(hints), { status: 200 });
+    return NextResponse.json(hints, { status: 200 });
   } catch (error) {
-    return new Response('Failed to fetch hints created by user', {
+    return NextResponse.json('Failed to fetch hints created by user', {
       status: 500,
     });
   }

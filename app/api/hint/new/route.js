@@ -2,6 +2,7 @@ import Hint from '@models/hint';
 import { connectToDB } from '@utils/database';
 import { authOptions } from '../../auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth/next';
+import { NextResponse } from 'next/server';
 
 export const POST = async req => {
   const { userId, hint, tag } = await req.json();
@@ -17,8 +18,8 @@ export const POST = async req => {
 
     await newHint.save();
 
-    return new Response(JSON.stringify(newHint), { status: 201 });
+    return NextResponse.json(newHint, { status: 201 });
   } catch (error) {
-    return new Response('Failed to create a new Hint', { status: 500 });
+    return NextResponse.json('Failed to create a new Hint', { status: 500 });
   }
 };

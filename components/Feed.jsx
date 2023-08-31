@@ -15,6 +15,7 @@ const Feed = () => {
   // Get all the posts from the database
   const fetchPosts = async () => {
     const response = await fetch('/api/hint');
+    console.log(response);
     const data = await response.json();
 
     // then store the data in the allPosts
