@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
-import React from 'react';
 
 interface HintCardProps {
   // todo : check if post is correct type

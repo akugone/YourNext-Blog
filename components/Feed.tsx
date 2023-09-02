@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import HintCardList from './HintCardList';
-import React from 'react';
 
 const Feed = () => {
   //store all posts

@@ -1,4 +1,3 @@
-import React from 'react';
 import HintCard from './HintCard';
 
 interface HintCardListProps {
