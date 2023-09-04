@@ -9,6 +9,10 @@ This is a [Next.js] 13 (https://nextjs.org/) project bootstrapped with [`create-
 First, run the development server:
 
 ```bash
+npm i
+```
+
+```bash
 npm run dev
 ```
 
@@ -39,3 +43,4 @@ https://www.loom.com/share/d9adb4ba31234b32b857946610494d88?sid=cd97197e-3ba3-40
  - [ ] Add MDX
  - [ ] Add PWA
  - [ ] Switch from MongoDB to Prisma or PostGre
+ - [ ] Add API keyword
