@@ -3,6 +3,7 @@ import { connectToDB } from '@/utils/database';
 import { authOptions } from '../../auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth/next';
 import { NextResponse } from 'next/server';
+import { NextApiRequest } from 'next';
 
 export const POST = async (req: NextApiRequest) => {
   const { userId, hint, tag } = await req.json();
