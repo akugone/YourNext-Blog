@@ -1,4 +1,5 @@
 WILT => **W**hat **I** **L**earnt **T**oday
+
 Every day, you discover some tips or really useful info while coding. I want to share it building WILT, a hub where web3 (and web2) devs bring their best daily coding tips.
 
 This is a [Next.js] 13 (https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
