@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
+// best practice to use Prisma with NextJS
 declare global {
   var prisma: PrismaClient | undefined;
 }
