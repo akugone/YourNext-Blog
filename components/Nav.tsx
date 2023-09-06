@@ -1,134 +1,101 @@
 'use client';
 
-import Link from 'next/link';
+import { useCallback, useState } from 'react';
+import { AiOutlineMenu } from 'react-icons/ai';
+import { signOut } from 'next-auth/react';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
-import { signIn, signOut, useSession, getProviders } from 'next-auth/react';
+import useLoginModal from '@/app/hooks/useLoginModal';
+import useRegisterModal from '@/app/hooks/useRegisterModal';
+import MenuItem from './MenuItem';
+import Avatar from './Avatar';
+import Link from 'next/link';
 
-const Nav = () => {
-  const { data: session } = useSession();
-  // todo : fix the typing
-  const [providers, setProviders] = useState<ProviderMap | null>(null);
-  const [toggleDropdown, setToggleDropdown] = useState(false);
+const Nav = ({ currentUser }: any) => {
+  const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
+  const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      const res = await getProviders();
-      setProviders(res);
-    })();
+  const toggleOpen = useCallback(() => {
+    setIsOpen(value => !value);
   }, []);
 
   return (
-    <nav className='flex-between w-full mb-16 pt-3'>
-      {/* Logo */}
-      <Link href='/' className='flex gap-2 flex-center'>
-        <Image
-          src='/assets/images/logo.svg'
-          alt='Wilt logo'
-          width={30}
-          height={30}
-          className='object-contain'
-        />
-        <p className='logo_text'>WILT</p>
-      </Link>
-
-      {/* Desktop navigation */}
-      <div className='sm:flex hidden'>
-        {session?.user ? (
-          <div className='flex gap-3 md:gap-5'>
-            <Link href='/create-hint' className='black_btn'>
-              Create Post
-            </Link>
-            <button type='button' onClick={signOut} className='outline_btn'>
-              {' '}
-              Sign Out{' '}
-            </button>
-            <Link href='/profile'>
+    <>
+      <div className='flex justify-between w-full mt-6'>
+        <div className='gap-3'>
+          <div>
+            <Link href='/' className='flex gap-2 flex-center'>
               <Image
-                src={
-                  session?.user?.image
-                    ? session.user.image
-                    : '/assets/images/raccoon.png'
-                }
-                width={37}
-                height={37}
-                className='rounded-full'
-                alt='profil image'
+                src='/assets/images/logo.svg'
+                alt='Wilt logo'
+                width={30}
+                height={30}
+                className='object-contain'
               />
+              <p className='logo_text'>WILT</p>
             </Link>
           </div>
-        ) : (
-          <>
-            {providers &&
-              Object.values(providers).map(provider => (
-                <button
-                  type='button'
-                  key={provider.name}
-                  onClick={() => signIn(provider.id)}
-                  className='black_btn'>
-                  {' '}
-                  Sign In
-                </button>
-              ))}
-          </>
-        )}
-      </div>
+        </div>
 
-      {/* Desktop navigation */}
-      <div className='sm:hidden flex relative'>
-        {session?.user ? (
-          <div className='flex'>
-            <Image
-              src={session?.user.image}
-              width={37}
-              height={37}
-              className='rounded-full'
-              alt='profil image'
-              onClick={() => setToggleDropdown(prev => !prev)}
-            />
-            {toggleDropdown && (
-              <div className='dropdown'>
-                <Link
-                  href='/profile'
-                  className='dropdown_link'
-                  onClick={() => setToggleDropdown(false)}>
-                  My Profile
-                </Link>
-                <Link
-                  href='/create-hint'
-                  className='dropdown_link'
-                  onClick={() => {
-                    setToggleDropdown(false);
-                    signOut();
-                  }}>
-                  Create a tips
-                </Link>
-                <button
-                  type='button'
-                  onClick={() => setToggleDropdown(false)}
-                  className='my-5 w-full black_btn'>
-                  Sign Out
-                </button>
-              </div>
-            )}
+        <div
+          onClick={toggleOpen}
+          className='
+          p-4
+          ml-4
+          md:py-1
+          md:px-2
+          border-[1px] 
+          border-neutral-200 
+          flex 
+          flex-row 
+          items-center 
+          gap-3 
+          rounded-full 
+          cursor-pointer 
+          hover:shadow-md 
+          transition
+          '>
+          <AiOutlineMenu />
+          <div className='hidden md:block'>
+            <Avatar src={currentUser?.image} />
           </div>
-        ) : (
-          <>
-            {providers &&
-              Object.values(providers).map(provider => (
-                <button
-                  type='button'
-                  key={provider.name}
-                  onClick={() => signIn(provider.id)}
-                  className='black_btn'>
-                  {' '}
-                  Sign In
-                </button>
-              ))}
-          </>
-        )}
+
+          {isOpen && (
+            <div
+              className='
+            absolute 
+            rounded-xl 
+            shadow-md
+            w-[30vw]
+            md:w-[10vw]
+            bg-white 
+            overflow-hidden 
+            right-2 
+            top-20 
+            text-sm
+          '>
+              <div className='flex flex-col cursor-pointer'>
+                {currentUser ? (
+                  <>
+                    <MenuItem label='Logout' onClick={() => signOut()} />
+                  </>
+                ) : (
+                  <>
+                    <MenuItem label='Login' onClick={loginModal.onOpen} />
+                    <MenuItem label='Sign up' onClick={registerModal.onOpen} />
+                    <Link
+                      href='/create-hint'
+                      className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'>
+                      Create a tips
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </nav>
+    </>
   );
 };
 
