@@ -88,6 +88,11 @@ const Nav = ({ currentUser }: any) => {
                       className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'>
                       Create a tips
                     </Link>
+                    <Link
+                      href='/profile'
+                      className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'>
+                      My Profile
+                    </Link>
                   </>
                 )}
               </div>
