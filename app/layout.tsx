@@ -6,6 +6,8 @@ import { Inter } from 'next/font/google';
 import RegisterModal from '@/components/modals/RegisterModal';
 import LoginModal from '@/components/modals/LoginModal';
 import ToasterProvider from '@/providers/ToasterProvider';
+import { get } from 'mongoose';
+import getCurrentUser from './actions/getCurrentUser';
 
 // font setup
 const inter = Inter({
@@ -19,23 +21,26 @@ export const metadata = {
   description: 'This is the first verion of the WILT project',
 };
 
-const Rootlayout = ({ children }: { children: React.ReactNode }) => (
-  <html lang='en' className={inter.className}>
-    <body>
-      <Provider>
-        <div className='main'>
-          <div className='gradient'></div>
-        </div>
-        <main className='app'>
-          <ToasterProvider />
-          <LoginModal />
-          <RegisterModal />
-          <Nav />
-          {children}
-        </main>
-      </Provider>
-    </body>
-  </html>
-);
+const Rootlayout = async ({ children }: { children: React.ReactNode }) => {
+  const currentUser = await getCurrentUser();
+  return (
+    <html lang='en' className={inter.className}>
+      <body>
+        <Provider>
+          <div className='main'>
+            <div className='gradient'></div>
+          </div>
+          <main className='app'>
+            <ToasterProvider />
+            <LoginModal />
+            <RegisterModal />
+            <Nav currentUser={currentUser} />
+            {children}
+          </main>
+        </Provider>
+      </body>
+    </html>
+  );
+};
 
 export default Rootlayout;

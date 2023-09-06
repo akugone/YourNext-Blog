@@ -9,8 +9,13 @@ import useRegisterModal from '@/app/hooks/useRegisterModal';
 import MenuItem from './MenuItem';
 import Avatar from './Avatar';
 import Link from 'next/link';
+import { User } from '@prisma/client';
 
-const Nav = ({ currentUser }: any) => {
+interface NavProps {
+  currentUser?: User | null;
+}
+
+const Nav = ({ currentUser }: NavProps) => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
   const [isOpen, setIsOpen] = useState(false);
@@ -78,11 +83,6 @@ const Nav = ({ currentUser }: any) => {
                 {currentUser ? (
                   <>
                     <MenuItem label='Logout' onClick={() => signOut()} />
-                  </>
-                ) : (
-                  <>
-                    <MenuItem label='Login' onClick={loginModal.onOpen} />
-                    <MenuItem label='Sign up' onClick={registerModal.onOpen} />
                     <Link
                       href='/create-hint'
                       className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'>
@@ -93,6 +93,11 @@ const Nav = ({ currentUser }: any) => {
                       className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'>
                       My Profile
                     </Link>
+                  </>
+                ) : (
+                  <>
+                    <MenuItem label='Login' onClick={loginModal.onOpen} />
+                    <MenuItem label='Sign up' onClick={registerModal.onOpen} />
                   </>
                 )}
               </div>
