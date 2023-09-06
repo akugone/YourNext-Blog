@@ -3,6 +3,8 @@ import Nav from '@/components/Nav';
 import Provider from '@/components/Provider';
 import { Inter } from 'next/font/google';
 
+import RegisterModal from '@/components/modals/RegisterModal';
+
 // font setup
 const inter = Inter({
   subsets: ['latin'],
@@ -23,6 +25,7 @@ const Rootlayout = ({ children }: { children: React.ReactNode }) => (
           <div className='gradient'></div>
         </div>
         <main className='app'>
+          <RegisterModal />
           <Nav />
           {children}
         </main>
