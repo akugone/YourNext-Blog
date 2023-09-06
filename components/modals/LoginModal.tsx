@@ -5,7 +5,7 @@ import { toast } from 'react-hot-toast';
 import { signIn } from 'next-auth/react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
-import { AiFillGithub } from 'react-icons/ai';
+import { AiFillGift, AiFillGithub } from 'react-icons/ai';
 import { useRouter } from 'next/navigation';
 
 import useRegisterModal from '@/app/hooks/useRegisterModal';
@@ -97,11 +97,17 @@ const LoginModal = () => {
         icon={AiFillGithub}
         onClick={() => signIn('github')}
       />
+      <Button
+        outline
+        label='Continue with Web3 ((Coming Soon))'
+        icon={AiFillGift}
+        onClick={() => signIn('github')}
+      />
       <div
         className='
       text-neutral-500 text-center mt-4 font-light'>
         <p>
-          First time using Airbnb?
+          First time using WILT?
           <span
             onClick={onToggle}
             className='
