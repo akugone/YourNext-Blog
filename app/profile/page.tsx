@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import Profile from '@/components/Profile';
-import { IPost } from '../types';
+import { IPost } from '@/app/types';
 
 const MyProfile = () => {
   const router = useRouter();
