@@ -1,23 +1,28 @@
-import Hint from '@/models/hint';
-import { connectToDB } from '@/utils/database';
-import { authOptions } from '../../auth/[...nextauth]/route';
-import { getServerSession } from 'next-auth/next';
 import { NextResponse } from 'next/server';
-import { NextApiRequest } from 'next';
+import getCurrentUser from '@/app/actions/getCurrentUser';
+import prisma from '@/app/libs/prismadb';
 
-export const POST = async (req: NextApiRequest) => {
-  const { userId, hint, tag } = await req.json();
-  const session = await getServerSession(authOptions);
+export const POST = async (request: Request) => {
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser) {
+    return NextResponse.error();
+  }
+
+  const { hint, tag } = await request.json();
+
+  if (!hint || !tag) {
+    return NextResponse.json('Missing hint or tag', { status: 400 });
+  }
 
   try {
-    await connectToDB();
-    const newHint = new Hint({
-      creator: userId,
-      hint: hint,
-      tag: tag,
+    const newHint = await prisma.hint.create({
+      data: {
+        authorId: Number(currentUser?.id), // relates the hint to the user
+        hint: hint,
+        tag: tag,
+      },
     });
-
-    await newHint.save();
 
     return NextResponse.json(newHint, { status: 201 });
   } catch (error) {

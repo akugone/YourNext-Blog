@@ -6,7 +6,6 @@ import { Inter } from 'next/font/google';
 import RegisterModal from '@/components/modals/RegisterModal';
 import LoginModal from '@/components/modals/LoginModal';
 import ToasterProvider from '@/providers/ToasterProvider';
-import { get } from 'mongoose';
 import getCurrentUser from './actions/getCurrentUser';
 
 // font setup
