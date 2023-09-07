@@ -20,6 +20,7 @@ const LoginModal = () => {
   const router = useRouter();
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
+  // TODO : see how we can use the default isLoading from next
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -36,6 +37,7 @@ const LoginModal = () => {
   const onSubmit: SubmitHandler<FieldValues> = data => {
     setIsLoading(true);
 
+    // TODO : explain in details callback
     signIn('credentials', {
       ...data,
       redirect: false,
@@ -130,6 +132,7 @@ const LoginModal = () => {
       title='Login'
       actionLabel='Continue'
       onClose={loginModal.onClose}
+      // todo : explain handleSubmit
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
