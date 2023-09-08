@@ -2,13 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import HintCardList from './HintCardList';
-import HintApiRepository from '@/utils/HintApiRepository';
-// for the prisma typing
-import prisma from '@prisma/client';
-
-type HintWithAuthor = prisma.Hint & {
-  author: prisma.User;
-};
+import HintApiRepository, { HintWithAuthor } from '@/utils/HintApiRepository';
 
 const Feed = () => {
   //store all posts
@@ -16,7 +10,7 @@ const Feed = () => {
   console.log('allPosts', allPosts);
 
   // Search states
-  const [searchText, setSearchText] = useState(null);
+  const [searchText, setSearchText] = useState<String>('');
 
   // fetch all posts when the component is mounted
   useEffect(() => {
@@ -46,7 +40,7 @@ const Feed = () => {
    * Handles the change event of the search input field.
    * @param {Object} e - The event object.
    */
-  const handleSearchChange = e => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // clearTimeout(searchTimeout);
     setSearchText(e.target.value);
   };

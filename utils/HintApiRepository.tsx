@@ -1,8 +1,8 @@
 const resource = '/api/hint';
-import prisma from '@prisma/client';
+import type { Hint, User } from '@prisma/client';
 
-export type HintWithAuthor = prisma.Hint & {
-  author: prisma.User;
+export type HintWithAuthor = Hint & {
+  author: User;
 };
 
 // Get all the posts from the database
