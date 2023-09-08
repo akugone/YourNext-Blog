@@ -1,6 +1,5 @@
 'use client';
 
-import axios from 'axios';
 import { AiFillGithub } from 'react-icons/ai';
 import { signIn } from 'next-auth/react';
 import { FcGoogle } from 'react-icons/fc';
@@ -33,24 +32,29 @@ const RegisterModal = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = data => {
+  const onSubmit: SubmitHandler<FieldValues> = async data => {
     setIsLoading(true);
 
-    // TODO : try to replace by fetch then delete axios
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-    axios
-      .post('/api/register', data)
-      .then(() => {
+      if (res.ok) {
         toast.success('Registered!');
         registerModal.onClose();
         loginModal.onOpen();
-      })
-      .catch(error => {
-        toast.error(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+      }
+      if (!res.ok) {
+        toast.error('Error');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const onToggle = useCallback(() => {

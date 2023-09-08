@@ -1,22 +1,18 @@
-import Hint from '@/models/hint';
 import type { NextApiRequest } from 'next';
-import { connectToDB } from '@/utils/database';
 import { NextResponse } from 'next/server';
+import prisma from '@/app/libs/prismadb';
 
 interface Params {
   id: string;
 }
 
-export const GET = async (request: NextApiRequest, { params }) => {
+export const GET = async (request: NextApiRequest) => {
   try {
-    await connectToDB();
+    const params = request.query.id as string;
+    const user = await prisma.user.findUnique({ where: { id: params } });
 
-    const hints = await Hint.find({ creator: params.id }).populate('creator');
-
-    return NextResponse.json(hints, { status: 200 });
+    return NextResponse.json(user, { status: 200 });
   } catch (error) {
-    return NextResponse.json('Failed to fetch hints created by user', {
-      status: 500,
-    });
+    return NextResponse.json('Failed to fetch the Hint', { status: 500 });
   }
 };

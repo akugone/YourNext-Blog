@@ -1,15 +1,18 @@
 import HintCard from './HintCard';
+import { HintWithAuthor } from '@/utils/HintApiRepository';
 
 interface HintCardListProps {
-  data: any[];
+  data: HintWithAuthor[];
   handleTagClick?: (tag: string) => void;
 }
 
 const HintCardList = ({ data, handleTagClick }: HintCardListProps) => {
+  console.log(data);
+
   return (
     <div className='mt-16 hint_layout'>
       {data.map(post => (
-        <HintCard key={post._id} post={post} handleTagClick={handleTagClick} />
+        <HintCard key={post.id} post={post} handleTagClick={handleTagClick} />
       ))}
     </div>
   );
