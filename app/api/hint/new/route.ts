@@ -5,6 +5,8 @@ import prisma from '@/app/libs/prismadb';
 export const POST = async (request: Request) => {
   const currentUser = await getCurrentUser();
 
+  // todo : big clean VMP
+
   if (!currentUser) {
     return NextResponse.error();
   }

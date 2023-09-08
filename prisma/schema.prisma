@@ -45,7 +45,7 @@ model Hint {
   id        String    @id @default(uuid())
   hint      String
   tags      String?
-  author    User?     @relation(fields: [id], references: [id])
+  author    User      @relation(fields: [id], references: [id])
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 }

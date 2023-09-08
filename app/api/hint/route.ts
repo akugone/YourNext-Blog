@@ -1,13 +1,17 @@
-import Hint from '@/models/hint';
 import type { NextApiRequest } from 'next';
 import { NextResponse } from 'next/server';
+import prisma from '@/app/libs/prismadb';
 
-export const GET = async (req: NextApiRequest) => {
-  // try {
-  //   await connectToDB();
-  //   const hints = await Hint.find({}).populate('creator');
-  //   return NextResponse.json(hints, { status: 200 });
-  // } catch (error) {
-  //   return NextResponse.json('Failed to fetch the Hint', { status: 500 });
-  // }
+export const GET = async () => {
+  try {
+    const hints = await prisma.hint.findMany({
+      include: {
+        author: true,
+      },
+    });
+
+    return NextResponse.json(hints, { status: 200 });
+  } catch (error) {
+    return NextResponse.json('Failed to fetch the Hint', { status: 500 });
+  }
 };

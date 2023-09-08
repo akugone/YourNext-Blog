@@ -8,7 +8,7 @@ const Home = () => {
         <span className='orange_gradient text-center'>Daily coding tips</span>
       </h1>
       <p className='desc text-center'>This project is a first version of WILT project</p>
-      {/* <Feed /> */}
+      <Feed />
     </section>
   );
 };
