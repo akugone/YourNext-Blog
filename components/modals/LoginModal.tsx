@@ -20,7 +20,6 @@ const LoginModal = () => {
   const router = useRouter();
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
-  // TODO : see how we can use the default isLoading from next
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -34,26 +33,26 @@ const LoginModal = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = data => {
+  const onSubmit: SubmitHandler<FieldValues> = async data => {
     setIsLoading(true);
 
-    // TODO : explain in details callback
-    signIn('credentials', {
+    const resp = await signIn('credentials', {
+      // TODO : verify that we can't pass other data
       ...data,
       redirect: false,
-    }).then(callback => {
-      setIsLoading(false);
-
-      if (callback?.ok) {
-        toast.success('Logged in');
-        router.refresh();
-        loginModal.onClose();
-      }
-
-      if (callback?.error) {
-        toast.error(callback.error);
-      }
     });
+
+    if (resp?.ok) {
+      toast.success('Logged in');
+      router.refresh();
+      loginModal.onClose();
+    }
+
+    if (resp?.error) {
+      toast.error(resp.error);
+    }
+
+    setIsLoading(false);
   };
 
   const onToggle = useCallback(() => {
@@ -132,7 +131,6 @@ const LoginModal = () => {
       title='Login'
       actionLabel='Continue'
       onClose={loginModal.onClose}
-      // todo : explain handleSubmit
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}

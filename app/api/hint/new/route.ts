@@ -18,9 +18,9 @@ export const POST = async (request: Request) => {
   try {
     const newHint = await prisma.hint.create({
       data: {
-        authorId: Number(currentUser?.id), // relates the hint to the user
         hint: hint,
-        tag: tag,
+        tags: tag,
+        author: { connect: { id: currentUser?.id } },
       },
     });
 
