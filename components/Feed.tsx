@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import HintCardList from './HintCardList';
 import HintApiRepository, { HintWithAuthor } from '@/utils/HintApiRepository';
+import { useDebounce } from '@/app/hooks/useDebounce';
 
 const Feed = () => {
   //store all posts
@@ -26,7 +27,8 @@ const Feed = () => {
    * @param {string} searchtext - The text to search for.
    * @returns {Array} - An array of posts that match the search text.
    */
-  const filterHints = (searchtext: string) => {
+
+  const filterHints = useDebounce((searchtext: string) => {
     const regex = new RegExp(searchtext, 'i'); // 'i' flag for case-insensitive search
     return allPosts.filter(
       item =>
@@ -34,7 +36,7 @@ const Feed = () => {
         (item.tags && regex.test(item.tags)) ||
         regex.test(item.hint),
     );
-  };
+  }, 200);
 
   /**
    * Handles the change event of the search input field.
@@ -46,9 +48,6 @@ const Feed = () => {
   };
 
   const filteredHints = useMemo(() => {
-    // add a debounce function
-    console.log('searchText', searchText);
-
     if (!searchText) {
       return allPosts;
     }
