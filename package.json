@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma": "npx prisma generate && npx prisma migrate dev --preview-feature"
   },
   "browserslist": {
     "production": [
@@ -26,7 +27,6 @@
     "@prisma/client": "^5.2.0",
     "@rainbow-me/rainbowkit": "^0.12.0",
     "@types/react": "18.2.21",
-    "axios": "^1.5.0",
     "bcrypt": "^5.1.1",
     "mongodb": "^5.8.0",
     "mongoose": "^7.4.3",

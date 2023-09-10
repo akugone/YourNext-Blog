@@ -4,35 +4,31 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
+import { HintWithAuthor } from '@/utils/HintApiRepository';
 
 interface HintCardProps {
   // todo : check if post is correct type
-  post: any;
+  post: HintWithAuthor;
   handleEdit?: (post: any) => void;
   handleDelete?: (post: any) => void;
   handleTagClick?: (tag: string) => void;
 }
 
-const HintCard = ({
-  post,
-  handleEdit,
-  handleDelete,
-  handleTagClick,
-}: HintCardProps) => {
+const HintCard = ({ post, handleEdit, handleDelete, handleTagClick }: HintCardProps) => {
   const { data: session } = useSession();
   const pathName = usePathname();
   const router = useRouter();
-  const [copied, setCopied] = useState('');
+  const [copied, setCopied] = useState<String>('');
 
   const handleProfileClick = () => {
-    if (post.creator._id === session?.user?.id) return router.push('/profile');
-    router.push(`/profile/${post.creator._id}?name=${post.creator.username}`);
+    if (post.author.email === session?.user?.email) return router.push('/profile');
+    router.push(`/profile/${post.author.id}?name=${post.author.name}`);
   };
 
   const handleCopy = () => {
     setCopied(post.hint);
     navigator.clipboard.writeText(post.hint);
-    setTimeout(() => setCopied(false), 3000);
+    setTimeout(() => setCopied(''), 3000);
   };
 
   return (
@@ -42,11 +38,7 @@ const HintCard = ({
           className='flex-1 flex justify-start items-center gap-3 cursor-pointer'
           onClick={handleProfileClick}>
           <Image
-            src={
-              post.creator.image
-                ? post.creator.image
-                : '/assets/images/raccoon.png'
-            }
+            src={post.author.image ? post.author.image : '/assets/images/raccoon.png'}
             alt='user_image'
             width={40}
             height={40}
@@ -54,22 +46,14 @@ const HintCard = ({
           />
 
           <div className='flex flex-col'>
-            <h3 className='font-satoshi font-semibold text-gray-900'>
-              {post.creator.username}
-            </h3>
-            <p className='font-inter text-sm text-gray-500'>
-              {post.creator.email}
-            </p>
+            <h3 className='font-satoshi font-semibold text-gray-900'>{post.author.name}</h3>
+            <p className='font-inter text-sm text-gray-500'>{post.author.email}</p>
           </div>
         </div>
 
         <div className='copy_btn' onClick={handleCopy}>
           <Image
-            src={
-              copied === post.hint
-                ? '/assets/icons/tick.svg'
-                : '/assets/icons/copy.svg'
-            }
+            src={copied === post.hint ? '/assets/icons/tick.svg' : '/assets/icons/copy.svg'}
             alt={copied === post.hint ? 'tick_icon' : 'copy_icon'}
             width={12}
             height={12}
@@ -80,20 +64,16 @@ const HintCard = ({
       <p className='my-4 font-satoshi text-sm text-gray-700'>{post.hint}</p>
       <p
         className='font-inter text-sm blue_gradient cursor-pointer'
-        onClick={() => handleTagClick && handleTagClick(post.tag)}>
-        #{post.tag}
+        onClick={() => handleTagClick && post.tags && handleTagClick(post.tags)}>
+        #{post.tags}
       </p>
 
-      {session?.user?.id === post.creator._id && pathName === '/profile' && (
+      {session?.user?.email === post.author.email && pathName === '/profile' && (
         <div className='mt-5 flex-center gap-4 border-t border-gray-100 pt-3'>
-          <p
-            className='font-inter text-sm green_gradient cursor-pointer'
-            onClick={handleEdit}>
+          <p className='font-inter text-sm green_gradient cursor-pointer' onClick={handleEdit}>
             Edit
           </p>
-          <p
-            className='font-inter text-sm orange_gradient cursor-pointer'
-            onClick={handleDelete}>
+          <p className='font-inter text-sm orange_gradient cursor-pointer' onClick={handleDelete}>
             Delete
           </p>
         </div>

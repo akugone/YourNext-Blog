@@ -1,12 +1,14 @@
-import Hint from '@/models/hint';
 import type { NextApiRequest } from 'next';
-import { connectToDB } from '@/utils/database';
 import { NextResponse } from 'next/server';
+import prisma from '@/app/libs/prismadb';
 
-export const GET = async (req: NextApiRequest) => {
+export const GET = async () => {
   try {
-    await connectToDB();
-    const hints = await Hint.find({}).populate('creator');
+    const hints = await prisma.hint.findMany({
+      include: {
+        author: true,
+      },
+    });
 
     return NextResponse.json(hints, { status: 200 });
   } catch (error) {

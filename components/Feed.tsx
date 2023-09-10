@@ -1,29 +1,25 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import HintCardList from './HintCardList';
+import HintApiRepository, { HintWithAuthor } from '@/utils/HintApiRepository';
+import { useDebounce } from '@/app/hooks/useDebounce';
 
 const Feed = () => {
   //store all posts
-  const [allPosts, setAllPosts] = useState([]);
+  const [allPosts, setAllPosts] = useState<HintWithAuthor[]>([]);
+  console.log('allPosts', allPosts);
 
   // Search states
-  const [searchText, setSearchText] = useState('');
-  const [searchTimeout, setSearchTimeout] = useState(null);
-  const [searchedResults, setSearchedResults] = useState([]);
-
-  // Get all the posts from the database
-  const fetchPosts = async () => {
-    const response = await fetch('/api/hint');
-    const data = await response.json();
-
-    // then store the data in the allPosts
-    setAllPosts(data);
-  };
+  const [searchText, setSearchText] = useState<String>('');
 
   // fetch all posts when the component is mounted
   useEffect(() => {
-    fetchPosts();
+    async function fetchHints() {
+      const data = await HintApiRepository.findAll();
+      setAllPosts(data);
+    }
+    fetchHints();
   }, []);
 
   /**
@@ -31,39 +27,39 @@ const Feed = () => {
    * @param {string} searchtext - The text to search for.
    * @returns {Array} - An array of posts that match the search text.
    */
-  const filterHints = searchtext => {
+
+  const filterHints = useDebounce((searchtext: string) => {
     const regex = new RegExp(searchtext, 'i'); // 'i' flag for case-insensitive search
     return allPosts.filter(
       item =>
-        regex.test(item.creator.username) ||
-        regex.test(item.tag) ||
+        regex.test(item.author.name) ||
+        (item.tags && regex.test(item.tags)) ||
         regex.test(item.hint),
     );
-  };
+  }, 200);
 
   /**
    * Handles the change event of the search input field.
    * @param {Object} e - The event object.
    */
-  const handleSearchChange = e => {
-    clearTimeout(searchTimeout);
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // clearTimeout(searchTimeout);
     setSearchText(e.target.value);
-
-    // debounce method
-    setSearchTimeout(
-      setTimeout(() => {
-        const searchResult = filterHints(e.target.value);
-        setSearchedResults(searchResult);
-      }, 500),
-    );
   };
 
-  const handleTagClick = tagName => {
+  const filteredHints = useMemo(() => {
+    if (!searchText) {
+      return allPosts;
+    }
+
+    return filterHints(searchText);
+  }, [searchText, allPosts]);
+
+  const handleTagClick = (tagName: string) => {
     setSearchText(tagName);
-
-    const searchResult = filterHints(tagName);
-    setSearchedResults(searchResult);
   };
+
+  console.log('filteredHints', filteredHints);
 
   return (
     <section className='feed'>
@@ -77,13 +73,7 @@ const Feed = () => {
           className='search_input peer'
         />
       </form>
-
-      {/* All Hints */}
-      {searchText ? (
-        <HintCardList data={searchedResults} handleTagClick={handleTagClick} />
-      ) : (
-        <HintCardList data={allPosts} handleTagClick={handleTagClick} />
-      )}
+      <HintCardList data={filteredHints} handleTagClick={handleTagClick} />
     </section>
   );
 };

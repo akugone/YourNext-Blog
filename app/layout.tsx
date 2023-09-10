@@ -1,12 +1,11 @@
 import '@/styles/globals.css';
 import Nav from '@/components/Nav';
-import Provider from '@/components/Provider';
+import SessionProvider from '@/components/Provider';
 import { Inter } from 'next/font/google';
 
 import RegisterModal from '@/components/modals/RegisterModal';
 import LoginModal from '@/components/modals/LoginModal';
 import ToasterProvider from '@/providers/ToasterProvider';
-import { get } from 'mongoose';
 import getCurrentUser from './actions/getCurrentUser';
 
 import { createPublicClient, http } from 'viem';
@@ -37,7 +36,6 @@ const Rootlayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='en' className={inter.className}>
       <body>
-<<<<<<< Updated upstream
         <Provider>
           <div className='main'>
             <div className='gradient'></div>
