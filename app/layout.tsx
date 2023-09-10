@@ -36,19 +36,6 @@ const Rootlayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='en' className={inter.className}>
       <body>
-        <Provider>
-          <div className='main'>
-            <div className='gradient'></div>
-          </div>
-          <main className='app'>
-            <ToasterProvider />
-            <LoginModal />
-            <RegisterModal />
-            <Nav currentUser={currentUser} />
-            {children}
-          </main>
-        </Provider>
-=======
         <WagmiConfig config={config}>
           <SessionProvider>
             <div className='main'>
@@ -63,7 +50,6 @@ const Rootlayout = async ({ children }: { children: React.ReactNode }) => {
             </main>
           </SessionProvider>
         </WagmiConfig>
->>>>>>> Stashed changes
       </body>
     </html>
   );
