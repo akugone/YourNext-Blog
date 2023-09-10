@@ -6,8 +6,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 import type { NextAuthOptions } from 'next-auth';
 import prisma from '@/app/libs/prismadb';
-import { getCsrfToken } from 'next-auth/react';
-import { SiweMessage } from 'siwe';
+import { utils } from 'ethers';
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -51,41 +50,21 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     CredentialsProvider({
-      name: 'Ethereum',
+      name: 'Web3',
       credentials: {
-        message: {
-          label: 'Message',
-          type: 'text',
-          placeholder: '0x0',
-        },
-        signature: {
-          label: 'Signature',
+        address: {
+          label: 'Address',
           type: 'text',
           placeholder: '0x0',
         },
       },
       async authorize(credentials) {
-        try {
-          if (!process.env.NEXTAUTH_URL) {
-            throw 'NEXTAUTH_URL is not set';
-          }
-          const siwe = new SiweMessage(JSON.parse(credentials?.message || '{}'));
-          const nextAuthUrl = new URL(process.env.NEXTAUTH_URL);
-          if (siwe.domain !== nextAuthUrl.host) {
-            return null;
-          }
-
-          if (siwe.nonce !== (await getCsrfToken({ req }))) {
-            return null;
-          }
-
-          await siwe.validate(credentials?.signature || '');
-          return {
-            id: siwe.address,
-          };
-        } catch (e) {
+        if (!Boolean(utils.getAddress(credentials?.address!))) {
           return null;
         }
+        return {
+          id: credentials?.address,
+        };
       },
     }),
   ],

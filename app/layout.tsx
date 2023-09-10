@@ -8,22 +8,11 @@ import LoginModal from '@/components/modals/LoginModal';
 import ToasterProvider from '@/providers/ToasterProvider';
 import getCurrentUser from './actions/getCurrentUser';
 
-import { createPublicClient, http } from 'viem';
-import { WagmiConfig, createConfig, mainnet } from 'wagmi';
-
 // font setup
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-});
-
-const config = createConfig({
-  autoConnect: true,
-  publicClient: createPublicClient({
-    chain: mainnet,
-    transport: http(),
-  }),
 });
 
 export const metadata = {
@@ -36,20 +25,18 @@ const Rootlayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='en' className={inter.className}>
       <body>
-        <WagmiConfig config={config}>
-          <SessionProvider>
-            <div className='main'>
-              <div className='gradient'></div>
-            </div>
-            <main className='app'>
-              <ToasterProvider />
-              <LoginModal />
-              <RegisterModal />
-              <Nav currentUser={currentUser} />
-              {children}
-            </main>
-          </SessionProvider>
-        </WagmiConfig>
+        <SessionProvider>
+          <div className='main'>
+            <div className='gradient'></div>
+          </div>
+          <main className='app'>
+            <ToasterProvider />
+            <LoginModal />
+            <RegisterModal />
+            <Nav currentUser={currentUser} />
+            {children}
+          </main>
+        </SessionProvider>
       </body>
     </html>
   );
