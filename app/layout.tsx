@@ -9,7 +9,10 @@ import ToasterProvider from '@/providers/ToasterProvider';
 import getCurrentUser from './actions/getCurrentUser';
 
 import '@rainbow-me/rainbowkit/styles.css';
-import Web3Providers from '@/app/web3-provider';
+
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import WagmiProviders from './web3-provider';
+import { chains } from '@/app/constants/chains';
 
 // font setup
 const inter = Inter({
@@ -17,6 +20,10 @@ const inter = Inter({
   display: 'swap',
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 });
+
+const demoAppInfo = {
+  appName: 'WILT Demo',
+};
 
 export const metadata = {
   title: 'WILT',
@@ -28,20 +35,22 @@ const Rootlayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='en' className={inter.className}>
       <body>
-        <Web3Providers>
+        <WagmiProviders>
           <SessionProvider>
-            <div className='main'>
-              <div className='gradient'></div>
-            </div>
-            <main className='app'>
-              <ToasterProvider />
-              <LoginModal />
-              <RegisterModal />
-              <Nav currentUser={currentUser} />
-              {children}
-            </main>
+            <RainbowKitProvider chains={chains} appInfo={demoAppInfo} modalSize='compact'>
+              <div className='main'>
+                <div className='gradient'></div>
+              </div>
+              <main className='app'>
+                <ToasterProvider />
+                <LoginModal />
+                <RegisterModal />
+                <Nav currentUser={currentUser} />
+                {children}
+              </main>
+            </RainbowKitProvider>
           </SessionProvider>
-        </Web3Providers>
+        </WagmiProviders>
       </body>
     </html>
   );

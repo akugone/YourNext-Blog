@@ -11,6 +11,7 @@ import Avatar from './Avatar';
 import Link from 'next/link';
 import { SafeUser } from '@/app/types';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount, useConnect } from 'wagmi';
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;
@@ -21,6 +22,9 @@ const Nav: React.FC<UserMenuProps> = ({ currentUser }) => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
   const [isOpen, setIsOpen] = useState(false);
+
+  const { isConnected } = useAccount();
+  console.log('isConnected', isConnected);
 
   const toggleOpen = useCallback(() => {
     setIsOpen(value => !value);
@@ -44,7 +48,11 @@ const Nav: React.FC<UserMenuProps> = ({ currentUser }) => {
           </div>
         </div>
 
-        <div className='flex gap-2'>
+        <div className='flex gap-1'>
+          <div>
+            <ConnectButton chainStatus='icon' label='Web3 Login' showBalance={false} />
+          </div>
+
           <div
             onClick={toggleOpen}
             className='
@@ -107,9 +115,6 @@ const Nav: React.FC<UserMenuProps> = ({ currentUser }) => {
                 </div>
               </div>
             )}
-          </div>
-          <div>
-            <ConnectButton accountStatus='avatar' label='Web3 Login' />
           </div>
         </div>
       </div>

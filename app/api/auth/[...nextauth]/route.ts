@@ -6,6 +6,8 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 import type { NextAuthOptions } from 'next-auth';
 import prisma from '@/app/libs/prismadb';
+import { getCsrfToken } from 'next-auth/react';
+import { SiweMessage } from 'siwe';
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -46,6 +48,43 @@ export const authOptions: NextAuthOptions = {
         }
 
         return user;
+      },
+    }),
+    CredentialsProvider({
+      name: 'Ethereum',
+      credentials: {
+        message: {
+          label: 'Message',
+          type: 'text',
+          placeholder: '0x0',
+        },
+        signature: {
+          label: 'Signature',
+          type: 'text',
+          placeholder: '0x0',
+        },
+      },
+
+      async authorize(credentials) {
+        try {
+          const siwe = new SiweMessage(JSON.parse(credentials?.message || '{}'));
+          const nextAuthUrl = new URL(process.env.NEXTAUTH_URL as string);
+
+          const result = await siwe.verify({
+            signature: credentials?.signature || '',
+            domain: nextAuthUrl.host,
+            nonce: await getCsrfToken({ req }),
+          });
+
+          if (result.success) {
+            return {
+              id: siwe.address,
+            };
+          }
+          return null;
+        } catch (e) {
+          return null;
+        }
       },
     }),
   ],
