@@ -15,6 +15,7 @@ import Modal from './Modal';
 import Input from '../inputs/Input';
 import Heading from '../Heading';
 import Button from '../Button';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const LoginModal = () => {
   const router = useRouter();
@@ -98,12 +99,8 @@ const LoginModal = () => {
         icon={AiFillGithub}
         onClick={() => signIn('github')}
       />
-      <Button
-        outline
-        label='Continue with Web3 ((Coming Soon))'
-        icon={AiFillGift}
-        onClick={() => signIn('github')}
-      />
+
+      <ConnectButton />
       <div
         className='
       text-neutral-500 text-center mt-4 font-light'>

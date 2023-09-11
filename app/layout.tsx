@@ -8,6 +8,9 @@ import LoginModal from '@/components/modals/LoginModal';
 import ToasterProvider from '@/providers/ToasterProvider';
 import getCurrentUser from './actions/getCurrentUser';
 
+import '@rainbow-me/rainbowkit/styles.css';
+import Web3Providers from '@/app/web3-provider';
+
 // font setup
 const inter = Inter({
   subsets: ['latin'],
@@ -25,18 +28,20 @@ const Rootlayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='en' className={inter.className}>
       <body>
-        <SessionProvider>
-          <div className='main'>
-            <div className='gradient'></div>
-          </div>
-          <main className='app'>
-            <ToasterProvider />
-            <LoginModal />
-            <RegisterModal />
-            <Nav currentUser={currentUser} />
-            {children}
-          </main>
-        </SessionProvider>
+        <Web3Providers>
+          <SessionProvider>
+            <div className='main'>
+              <div className='gradient'></div>
+            </div>
+            <main className='app'>
+              <ToasterProvider />
+              <LoginModal />
+              <RegisterModal />
+              <Nav currentUser={currentUser} />
+              {children}
+            </main>
+          </SessionProvider>
+        </Web3Providers>
       </body>
     </html>
   );
