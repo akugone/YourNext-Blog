@@ -10,6 +10,7 @@ import MenuItem from './MenuItem';
 import Avatar from './Avatar';
 import Link from 'next/link';
 import { SafeUser } from '@/app/types';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;
@@ -43,9 +44,10 @@ const Nav: React.FC<UserMenuProps> = ({ currentUser }) => {
           </div>
         </div>
 
-        <div
-          onClick={toggleOpen}
-          className='
+        <div className='flex gap-2'>
+          <div
+            onClick={toggleOpen}
+            className='
           p-4
           ml-4
           md:py-1
@@ -61,14 +63,14 @@ const Nav: React.FC<UserMenuProps> = ({ currentUser }) => {
           hover:shadow-md 
           transition
           '>
-          <AiOutlineMenu />
-          <div className='hidden md:block'>
-            <Avatar src={currentUser?.image} />
-          </div>
+            <AiOutlineMenu />
+            <div className='hidden md:block'>
+              <Avatar src={currentUser?.image} />
+            </div>
 
-          {isOpen && (
-            <div
-              className='
+            {isOpen && (
+              <div
+                className='
             absolute 
             rounded-xl 
             shadow-md
@@ -80,31 +82,35 @@ const Nav: React.FC<UserMenuProps> = ({ currentUser }) => {
             top-20 
             text-sm
           '>
-              <div className='flex flex-col cursor-pointer'>
-                {currentUser ? (
-                  <>
-                    <Link
-                      href='/create-hint'
-                      className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'>
-                      Create a tips
-                    </Link>
-                    <Link
-                      href='/profile'
-                      className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'>
-                      My Profile
-                    </Link>
-                    <hr />
-                    <MenuItem label='Logout' onClick={() => signOut()} />
-                  </>
-                ) : (
-                  <>
-                    <MenuItem label='Login' onClick={loginModal.onOpen} />
-                    <MenuItem label='Sign up' onClick={registerModal.onOpen} />
-                  </>
-                )}
+                <div className='flex flex-col cursor-pointer'>
+                  {currentUser ? (
+                    <>
+                      <Link
+                        href='/create-hint'
+                        className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'>
+                        Create a tips
+                      </Link>
+                      <Link
+                        href='/profile'
+                        className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'>
+                        My Profile
+                      </Link>
+                      <hr />
+                      <MenuItem label='Logout' onClick={() => signOut()} />
+                    </>
+                  ) : (
+                    <>
+                      <MenuItem label='Login' onClick={loginModal.onOpen} />
+                      <MenuItem label='Sign up' onClick={registerModal.onOpen} />
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
+          <div>
+            <ConnectButton accountStatus='avatar' label='Web3 Login' />
+          </div>
         </div>
       </div>
     </>
