@@ -6,7 +6,6 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 import type { NextAuthOptions } from 'next-auth';
 import prisma from '@/app/libs/prismadb';
-import { utils } from 'ethers';
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -47,24 +46,6 @@ export const authOptions: NextAuthOptions = {
         }
 
         return user;
-      },
-    }),
-    CredentialsProvider({
-      name: 'Web3',
-      credentials: {
-        address: {
-          label: 'Address',
-          type: 'text',
-          placeholder: '0x0',
-        },
-      },
-      async authorize(credentials) {
-        if (!Boolean(utils.getAddress(credentials?.address!))) {
-          return null;
-        }
-        return {
-          id: credentials?.address,
-        };
       },
     }),
   ],
