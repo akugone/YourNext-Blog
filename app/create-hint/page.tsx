@@ -18,7 +18,6 @@ const CreateHint = () => {
 
     try {
       const response = await HintApiRepository.create(post.hint, post.tag);
-      console.log(response);
 
       router.push('/');
     } catch (error) {

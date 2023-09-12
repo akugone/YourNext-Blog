@@ -10,16 +10,22 @@ const findAll = async (): Promise<HintWithAuthor[]> => {
   const response = await fetch(resource);
   const data = await response.json();
 
-  // then store the data in the allPosts
   return data;
 };
 
-// Get all one post from the database
+// Get one post with his id
 const findUnique = async (hintId: string): Promise<HintWithAuthor> => {
   const response = await fetch(`${resource}/${hintId}`);
   const data = await response.json();
 
-  // then store the data in the allPosts
+  return data;
+};
+
+// find all the posts from one user
+export const findUserHints = async (userId: string): Promise<HintWithAuthor[]> => {
+  const response = await fetch(`${resource}/${userId}`);
+  const data = await response.json();
+
   return data;
 };
 
@@ -56,6 +62,7 @@ const HintApiRepository = {
   findUnique: findUnique,
   create: create,
   deleteHint: deleteHint,
+  findUserHints: findUserHints,
 };
 
 export default HintApiRepository;

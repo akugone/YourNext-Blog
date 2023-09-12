@@ -8,7 +8,6 @@ import { useDebounce } from '@/app/hooks/useDebounce';
 const Feed = () => {
   //store all posts
   const [allPosts, setAllPosts] = useState<HintWithAuthor[]>([]);
-  console.log('allPosts', allPosts);
 
   // Search states
   const [searchText, setSearchText] = useState<String>('');
@@ -58,8 +57,6 @@ const Feed = () => {
   const handleTagClick = (tagName: string) => {
     setSearchText(tagName);
   };
-
-  console.log('filteredHints', filteredHints);
 
   return (
     <section className='feed'>

@@ -19,8 +19,10 @@ const UserProfile = ({ params }: UserProfileProps) => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const data = await HintApiRepository.findUserPosts(params.id);
-      setUserPosts(data);
+      const data = await HintApiRepository.findUserHints(params.id);
+      console.log('toto', data);
+
+      // setUserPosts(data);
     };
 
     if (params?.id) fetchPosts();

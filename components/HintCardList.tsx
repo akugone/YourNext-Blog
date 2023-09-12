@@ -7,8 +7,6 @@ interface HintCardListProps {
 }
 
 const HintCardList = ({ data, handleTagClick }: HintCardListProps) => {
-  console.log(data);
-
   return (
     <div className='mt-16 hint_layout'>
       {data.map(post => (
