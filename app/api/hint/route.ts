@@ -1,4 +1,3 @@
-import type { NextApiRequest } from 'next';
 import { NextResponse } from 'next/server';
 import prisma from '@/app/libs/prismadb';
 

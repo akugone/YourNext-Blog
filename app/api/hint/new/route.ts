@@ -28,6 +28,7 @@ export const POST = async (request: Request) => {
 
     return NextResponse.json(newHint, { status: 201 });
   } catch (error) {
+    console.error('Prisma Error: ', error);
     return NextResponse.json('Failed to create a new Hint', { status: 500 });
   }
 };

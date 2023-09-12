@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-
 import Profile from '@/components/Profile';
+import HintApiRepository from '@/utils/HintApiRepository';
 
 interface UserProfileProps {
   params: {
@@ -19,9 +19,7 @@ const UserProfile = ({ params }: UserProfileProps) => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await fetch(`/api/users/${params?.id}/posts`);
-      const data = await response.json();
-
+      const data = await HintApiRepository.findUserPosts(params.id);
       setUserPosts(data);
     };
 

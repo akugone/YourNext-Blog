@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Form from '@/components/Form';
+import HintApiRepository from '@/utils/HintApiRepository';
 
 const CreateHint = () => {
   const router = useRouter();
@@ -16,17 +17,10 @@ const CreateHint = () => {
     // TODO security breach the userId should no be handle by the client
 
     try {
-      const response = await fetch('/api/hint/new', {
-        method: 'POST',
-        body: JSON.stringify({
-          hint: post.hint,
-          tag: post.tag,
-        }),
-      });
+      const response = await HintApiRepository.create(post.hint, post.tag);
+      console.log(response);
 
-      if (response.ok) {
-        router.push('/');
-      }
+      router.push('/');
     } catch (error) {
       console.log(error);
     } finally {
