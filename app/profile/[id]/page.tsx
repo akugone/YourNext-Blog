@@ -2,16 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+
 import Profile from '@/components/Profile';
-import HintApiRepository from '@/utils/HintApiRepository';
 
-interface UserProfileProps {
-  params: {
-    id: string;
-  };
-}
-
-const UserProfile = ({ params }: UserProfileProps) => {
+const UserProfile = ({ params }: any) => {
   const searchParams = useSearchParams();
   const userName = searchParams.get('name');
 
@@ -19,10 +13,10 @@ const UserProfile = ({ params }: UserProfileProps) => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const data = await HintApiRepository.findUserHints(params.id);
-      console.log('toto', data);
+      const response = await fetch(`/api/user/${params?.id}/posts`);
+      const data = await response.json();
 
-      // setUserPosts(data);
+      setUserPosts(data);
     };
 
     if (params?.id) fetchPosts();
@@ -31,7 +25,7 @@ const UserProfile = ({ params }: UserProfileProps) => {
   return (
     <Profile
       name={userName}
-      desc={`Welcome to ${userName}'s personalized profile page. Explore ${userName}'s exceptional hints and be inspired by the power of their imagination`}
+      desc={`Welcome to ${userName}'s personalized profile page. Explore ${userName}'s exceptional prompts and be inspired by the power of their imagination`}
       data={userPosts}
     />
   );

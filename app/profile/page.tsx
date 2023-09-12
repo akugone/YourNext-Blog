@@ -6,22 +6,24 @@ import { useRouter } from 'next/navigation';
 
 import Profile from '@/components/Profile';
 import { IPost } from '@/app/types';
-// import UserApiRepository from '@/utils/UserApiRepository';
+import HintApiRepository from '@/utils/HintApiRepository';
 
 const MyProfile = () => {
   const router = useRouter();
+
+  // we get in the session the user data session.user.email / session.user.image / session.user.name / session.user.id
   const { data: session } = useSession();
+
   const [myPosts, setMyPosts] = useState([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      // const response = await UserApiRepository.findHint();
-      // console.log(response);
-      // // setMyPosts(response);
+      const response = await HintApiRepository.findUserHints(session.user.id);
+      setMyPosts(response);
     };
 
-    if (session?.user?.email) fetchPosts();
-  }, [session?.user?.email]);
+    if (session?.user?.id) fetchPosts();
+  }, [session?.user?.id]);
 
   const handleEdit = (post: IPost) => {
     router.push(`/update-hint?id=${post._id}`);

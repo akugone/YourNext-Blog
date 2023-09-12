@@ -1,4 +1,6 @@
 const resource = '/api/hint';
+const resourceUser = '/api/user';
+
 import type { Hint, User } from '@prisma/client';
 
 export type HintWithAuthor = Hint & {
@@ -22,8 +24,8 @@ const findUnique = async (hintId: string): Promise<HintWithAuthor> => {
 };
 
 // find all the posts from one user
-export const findUserHints = async (userId: string): Promise<HintWithAuthor[]> => {
-  const response = await fetch(`${resource}/${userId}`);
+export const findUserHints = async (userId: string) => {
+  const response = await fetch(`${resourceUser}/${userId}/posts`);
   const data = await response.json();
 
   return data;

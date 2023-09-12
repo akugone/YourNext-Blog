@@ -1,23 +1,33 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/app/libs/prismadb';
 import { NextApiRequest } from 'next';
+import { getSession } from 'next-auth/react';
 
 interface Params {
   id: string;
 }
 
-export const GET = async (request: NextApiRequest) => {
+export const GET = async (request: Request, { params }: any) => {
   try {
-    const userId = request.query.id as string;
+    const userId = params.id as string;
 
     if (!userId) {
       return NextResponse.json('User not found', { status: 404 });
     }
 
-    // Fetch the user and associated hints
+    // get all the Hint fomr user id
     const hints = await prisma.hint.findMany({
       where: {
         authorId: userId,
+      },
+      include: {
+        author: {
+          select: {
+            name: true,
+            image: true,
+            email: true,
+          },
+        },
       },
     });
 

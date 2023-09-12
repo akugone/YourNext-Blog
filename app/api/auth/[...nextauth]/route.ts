@@ -18,7 +18,6 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
     }),
-
     CredentialsProvider({
       name: 'credentials',
       credentials: {
@@ -49,6 +48,15 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    session({ session, token, user }) {
+      if (user?.id) {
+        session.user.id = user.id;
+      }
+      return session;
+    },
+  },
+
   pages: {
     signIn: '/',
   },
