@@ -13,8 +13,7 @@ const MyProfile = () => {
 
   // we get in the session the user data session.user.email / session.user.image / session.user.name / session.user.id
   const { data: session } = useSession();
-
-  const [myPosts, setMyPosts] = useState([]);
+  const [myPosts, setMyPosts] = useState<IPost[]>([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -26,7 +25,7 @@ const MyProfile = () => {
   }, [session?.user?.id]);
 
   const handleEdit = (post: IPost) => {
-    router.push(`/update-hint?id=${post._id}`);
+    router.push(`/update-hint?id=${post.id}`);
   };
 
   const handleDelete = async (post: IPost) => {
@@ -34,11 +33,9 @@ const MyProfile = () => {
 
     if (hasConfirmed) {
       try {
-        await fetch(`/api/hint/${post._id?.toString()}`, {
-          method: 'DELETE',
-        });
+        await HintApiRepository.deleteHint(post.id);
 
-        const filteredPosts = myPosts.filter(item => item._id !== post._id);
+        const filteredPosts = myPosts.filter(item => item._id !== post.id);
 
         setMyPosts(filteredPosts);
       } catch (error) {

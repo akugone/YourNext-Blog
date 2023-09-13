@@ -20,8 +20,6 @@ const HintCard = ({ post, handleEdit, handleDelete, handleTagClick }: HintCardPr
   const router = useRouter();
   const [copied, setCopied] = useState<String>('');
 
-  console.log('PUTAINNN', post);
-
   const handleProfileClick = () => {
     if (post.author.email === session?.user?.email) return router.push('/profile');
     router.push(`/profile/${post.author.id}?name=${post.author.name}`);

@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/app/libs/prismadb';
-import { NextApiRequest } from 'next';
-import { getSession } from 'next-auth/react';
 
 interface Params {
   id: string;

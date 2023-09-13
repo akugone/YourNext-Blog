@@ -52,11 +52,14 @@ export const create = async (hint: string, tag: string) => {
 export const deleteHint = async (hintId: string) => {
   const response = await fetch(`${resource}/${hintId}`, {
     method: 'DELETE',
+    body: JSON.stringify({
+      hintId: hintId,
+    }),
   });
 
-  if (response.ok) {
-    return response.json();
-  }
+  console.log(response.status);
+
+  return await response.json();
 };
 
 const HintApiRepository = {
