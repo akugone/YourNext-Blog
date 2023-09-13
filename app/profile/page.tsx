@@ -35,7 +35,7 @@ const MyProfile = () => {
       try {
         await HintApiRepository.deleteHint(post.id);
 
-        const filteredPosts = myPosts.filter(item => item._id !== post.id);
+        const filteredPosts = myPosts.filter(item => item.id !== post.id);
 
         setMyPosts(filteredPosts);
       } catch (error) {
