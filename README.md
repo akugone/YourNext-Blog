@@ -48,6 +48,7 @@ https://www.loom.com/share/d9adb4ba31234b32b857946610494d88?sid=cd97197e-3ba3-40
 
 > PRIO 1
 - [ ] Finish typing
+- [ ] Integrate Zod
 - [ ] Add share on social network
 - [ ] Clean SEO
 - [ ] Add default pics generator from YourDall-E project
