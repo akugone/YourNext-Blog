@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
-
+import { z } from 'zod';
 import prisma from '@/app/libs/prismadb';
 
 export async function POST(request: Request) {
@@ -9,6 +9,7 @@ export async function POST(request: Request) {
     const { email, name, password } = body;
 
     // VALIDATION
+
     if (!email || !name || !password) {
       return NextResponse.json({ error: 'Missing parameter' }, { status: 400 });
     }
@@ -19,6 +20,14 @@ export async function POST(request: Request) {
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
+
+    const userSchema = z.object({
+      email: z.coerce.string().email(),
+      name: z.coerce.string().min(1).max(255),
+      password: z.coerce.string().min(8).max(255),
+    });
+
+    userSchema.parse({ email, name, password });
 
     // MAPPING
     const dataMapped = {

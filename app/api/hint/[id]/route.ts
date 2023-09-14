@@ -24,7 +24,6 @@ export const GET = async (request: Request, { params }: ParamsType) => {
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
     console.log(error);
-
     return NextResponse.json('Internal Server Error', { status: 500 });
   }
 };
