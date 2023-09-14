@@ -49,12 +49,9 @@ export const create = async (hint: string, tag: string) => {
 };
 
 // delete a hint in the database with the route api/hint/delete
-export const deleteHint = async (hintId: string) => {
-  const response = await fetch(`${resource}/${hintId}`, {
+export const deleteHint = async (id: string) => {
+  const response = await fetch(`${resource}/${id}`, {
     method: 'DELETE',
-    body: JSON.stringify({
-      hintId: hintId,
-    }),
   });
 
   console.log(response.status);

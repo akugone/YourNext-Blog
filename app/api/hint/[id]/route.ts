@@ -12,13 +12,15 @@ export const GET = async () => {
   }
 };
 
-export const DELETE = async (request: Request) => {
-  const { hintId } = await request.json();
+export const DELETE = async (request, { params }) => {
+  const { id } = params;
+  console.log('PUTAINNNN', id);
+
   try {
     // delete a user hint
     const data = await prisma.hint.delete({
       where: {
-        id: hintId,
+        id: id,
       },
     });
 
