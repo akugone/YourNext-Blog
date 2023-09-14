@@ -1,7 +1,15 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/app/libs/prismadb';
 
-export const GET = async (request, { params }) => {
+interface ParamsType {
+  params: {
+    id: string;
+  };
+}
+
+export const GET = async (request: Request, { params }: ParamsType) => {
+  console.log('GET', params);
+
   try {
     const { id } = params;
     const data = await prisma.hint.findUnique({
@@ -9,7 +17,7 @@ export const GET = async (request, { params }) => {
         id: id,
       },
       include: {
-        author: true, // This is a relation, so you can include it
+        author: true,
       },
     });
 
@@ -21,7 +29,8 @@ export const GET = async (request, { params }) => {
   }
 };
 
-export const DELETE = async (request, { params }) => {
+// @note Why we can't delete request even if it not used?
+export const DELETE = async (request: Request, { params }: ParamsType) => {
   try {
     const { id } = params;
     // delete a user hint
@@ -38,7 +47,7 @@ export const DELETE = async (request, { params }) => {
   }
 };
 
-export const PATCH = async (request, { params }) => {
+export const PATCH = async (request: Request, { params }: ParamsType) => {
   try {
     const { id } = params;
     const res = await request.json();

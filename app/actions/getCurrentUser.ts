@@ -18,8 +18,6 @@ export default async function getCurrentUser() {
     const session = await getSession();
     const user = session?.user as User | undefined;
 
-    console.log('you', session);
-
     const currentUser = await prisma.user.findUnique({
       where: {
         id: user?.id,
