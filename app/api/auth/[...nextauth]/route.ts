@@ -6,6 +6,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 import type { NextAuthOptions } from 'next-auth';
 import prisma from '@/app/libs/prismadb';
+import { User } from '@prisma/client';
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -49,9 +50,11 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    session({ session, token, user }) {
-      if (user?.id) {
-        session.user.id = user.id;
+    session({ session, user }) {
+      const userSession = session.user as User | undefined;
+
+      if (user?.id && userSession) {
+        userSession.id = user.id;
       }
       return session;
     },

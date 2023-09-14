@@ -9,14 +9,10 @@ import useRegisterModal from '@/app/hooks/useRegisterModal';
 import MenuItem from './MenuItem';
 import Avatar from './Avatar';
 import Link from 'next/link';
-import { SafeUser } from '@/app/types';
-
-interface UserMenuProps {
-  currentUser?: SafeUser | null;
-}
+import { User } from '@prisma/client';
 
 // todo : comprendre React.FC<UserMenuProps>
-const Nav: React.FC<UserMenuProps> = ({ currentUser }) => {
+const Nav: React.FC<User> = ({ currentUser }: User) => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
   const [isOpen, setIsOpen] = useState(false);
