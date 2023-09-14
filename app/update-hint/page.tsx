@@ -43,7 +43,7 @@ const UpdateHint = () => {
     if (!hintId) return alert('Missing HintId!');
 
     try {
-      const response = await HintApiRepository.update(hintId as string, post.hint, post.tag);
+      await HintApiRepository.update(hintId as string, post.hint, post.tag);
 
       router.push('/');
     } catch (error) {

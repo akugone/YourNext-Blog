@@ -43,13 +43,19 @@ export const PATCH = async (request, { params }) => {
     const { id } = params;
     const res = await request.json();
 
+    if (!res.hint || !res.tag) {
+      return NextResponse.json('Missing hint or tag', { status: 400 });
+    }
+
+    console.log(res);
+
     const data = await prisma.hint.update({
       where: {
         id: id,
       },
       data: {
         hint: res.hint || '',
-        tags: res.tags,
+        tags: res.tag || undefined,
       },
     });
 
