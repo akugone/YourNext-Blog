@@ -7,6 +7,7 @@ import RegisterModal from '@/components/modals/RegisterModal';
 import LoginModal from '@/components/modals/LoginModal';
 import ToasterProvider from '@/providers/ToasterProvider';
 import getCurrentUser from './actions/getCurrentUser';
+import { useEffect } from 'react';
 
 // font setup
 const inter = Inter({
@@ -20,6 +21,7 @@ export const metadata = {
   description: 'This is the first verion of the WILT project',
 };
 
+// @note should i add my current user in a useEffect and pass it as a prop to the Nav component, thta could allow to add typing ?
 const Rootlayout = async ({ children }: { children: React.ReactNode }) => {
   const currentUser = await getCurrentUser();
   return (

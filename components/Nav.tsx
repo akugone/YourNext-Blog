@@ -11,7 +11,20 @@ import Avatar from './Avatar';
 import Link from 'next/link';
 import { User } from '@prisma/client';
 
-// todo : comprendre React.FC<UserMenuProps>
+// interface NavProps {
+//   currentUser: {
+//     id: string;
+//     name: string;
+//     email: string;
+//     emailVerified: Date | null;
+//     image: string | null;
+//     hashedPassword: string | null;
+//     createdAt: Date | null;
+//     updatedAt: Date | null;
+//   };
+// }
+
+// @todo : comprendre React.FC<UserMenuProps>
 const Nav: React.FC<User> = ({ currentUser }: User) => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();

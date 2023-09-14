@@ -11,7 +11,7 @@ const UpdateHint = () => {
   const hintId = searchParams.get('id');
 
   const [post, setPost] = useState({ hint: '', tag: '' });
-  const [submitting, setIsSubmitting] = useState(false);
+  const [submitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
     const getHintDetails = async () => {
@@ -36,7 +36,7 @@ const UpdateHint = () => {
     if (hintId) getHintDetails();
   }, [hintId]);
 
-  const updateHint = async e => {
+  const updateHint = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
