@@ -15,17 +15,13 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }: FormProps) => {
       <h1 className='head_text text-left'>
         <span className='blue_gradient'>{type} Post</span>
       </h1>
-      <p className='desc text-left max-w-md'>
-        {type} and share amazing tips with the world.
-      </p>
+      <p className='desc text-left max-w-md'>{type} and share amazing tips with the world.</p>
 
       <form
         onSubmit={handleSubmit}
         className='mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism'>
         <label>
-          <span className='font-satoshi font-semibold text-base text-gray-700'>
-            Your Tips
-          </span>
+          <span className='font-satoshi font-semibold text-base text-gray-700'>Your Tips</span>
 
           <textarea
             value={post.hint}
@@ -39,9 +35,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }: FormProps) => {
         <label>
           <span className='font-satoshi font-semibold text-base text-gray-700'>
             Field of tips{' '}
-            <span className='font-normal'>
-              (#visualCode, #Solidity, #Python, etc.)
-            </span>
+            <span className='font-normal'>(#visualCode, #Solidity, #Python, etc.)</span>
           </span>
           <input
             value={post.tag}
@@ -62,7 +56,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }: FormProps) => {
             type='submit'
             disabled={submitting}
             className='px-5 py-1.5 text-sm bg-primary-orange rounded-full text-white'>
-            {submitting ? `${type}ing...` : type}
+            {submitting ? `Creating...` : type}
           </button>
         </div>
       </form>
