@@ -59,4 +59,5 @@ https://www.loom.com/share/d9adb4ba31234b32b857946610494d88?sid=cd97197e-3ba3-40
 - [ ] Work on design
 - [ ] Add MDX
 - [ ] Add PWA
+- [ ] Post Pagination
 
