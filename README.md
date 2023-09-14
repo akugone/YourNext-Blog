@@ -24,23 +24,38 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ## Stack
 - NextJS 13 / NextAuth
-- MongoDB
+- Supabase / PostgreSQL
+- Prisma
 - Tailwind
+
 
 ## Demo
 
 https://www.loom.com/share/d9adb4ba31234b32b857946610494d88?sid=cd97197e-3ba3-407f-bcd2-c92cab1d3bd1
 
-## WIP 
+## PROGRESS 
 
- - [ ] Finish typing
- - [ ] Work on design
- - [ ] Add Github / Web3 login
- - [ ] Add share on social network
- - [ ] Clean SEO
- - [ ] Add default pics generator from YourDall-E project
- - [ ] Switch on pnpm
- - [ ] Add MDX
- - [ ] Add PWA
- - [ ] Switch from MongoDB to Prisma or PostGre
- - [ ] Add API keyword
+**DONE**
+- [x] Login/logout/ account creation (NextAuth with Github/Google/Credentials)
+- [x] First design
+- [x] Create/Delete/update a post
+- [x] Database relation
+- [x] My Profile page
+- [x] Search bar/ filtering by tag or text
+- [x] Web3 Login (RainbowKit/ Wagmi) => web3-login branch
+
+**WIP**
+
+> PRIO 1
+- [ ] Finish typing
+- [ ] Add share on social network
+- [ ] Clean SEO
+- [ ] Add default pics generator from YourDall-E project
+- [ ] Add API keyword
+
+> PRIO 2
+- [ ] Switch on pnpm
+- [ ] Work on design
+- [ ] Add MDX
+- [ ] Add PWA
+
