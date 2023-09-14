@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Form from '@/components/Form';
+import HintApiRepository from '@/utils/HintApiRepository';
 
 const UpdateHint = () => {
   const router = useRouter();
@@ -14,12 +15,21 @@ const UpdateHint = () => {
 
   useEffect(() => {
     const getHintDetails = async () => {
-      const response = await fetch(`/api/hint/${hintId}`);
-      const data = await response.json();
+      if (!hintId) return;
+
+      const res = await HintApiRepository.findHintData(hintId);
+
+      console.log('response', res);
+
+      console.log('update hint page', {
+        hintId: hintId,
+        post_hint: res.hint,
+        post_tag: res.tags,
+      });
 
       setPost({
-        hint: data.hint,
-        tag: data.tag,
+        hint: res.hint || '',
+        tag: res.tags || '',
       });
     };
 
@@ -33,17 +43,9 @@ const UpdateHint = () => {
     if (!hintId) return alert('Missing HintId!');
 
     try {
-      const response = await fetch(`/api/hint/${hintId}`, {
-        method: 'PATCH',
-        body: JSON.stringify({
-          hint: post.hint,
-          tag: post.tag,
-        }),
-      });
+      const response = await HintApiRepository.update(hintId as string, post.hint, post.tag);
 
-      if (response.ok) {
-        router.push('/');
-      }
+      router.push('/');
     } catch (error) {
       console.log(error);
     } finally {

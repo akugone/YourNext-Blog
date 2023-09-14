@@ -16,11 +16,11 @@ const findAll = async (): Promise<HintWithAuthor[]> => {
 };
 
 // Get one post with his id
-const findUnique = async (hintId: string): Promise<HintWithAuthor> => {
-  const response = await fetch(`${resource}/${hintId}`);
-  const data = await response.json();
-
-  return data;
+const findHintData = async (id: string): Promise<HintWithAuthor> => {
+  const response = await fetch(`${resource}/${id}`, {
+    method: 'GET',
+  });
+  return await response.json();
 };
 
 // find all the posts from one user
@@ -48,6 +48,27 @@ export const create = async (hint: string, tag: string) => {
   return await response.json();
 };
 
+// update a hint in the database with the route api/hint/update
+export const update = async (id: string, hint: string, tag: string) => {
+  console.log(id, hint, tag);
+
+  const response = await fetch(`${resource}/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({
+      hint: hint,
+      tag: tag,
+    }),
+  });
+
+  console.log(response.status);
+
+  if (response.status != 200) {
+    throw new Error('Failed to update hint');
+  }
+
+  return await response.json();
+};
+
 // delete a hint in the database with the route api/hint/delete
 export const deleteHint = async (id: string) => {
   const response = await fetch(`${resource}/${id}`, {
@@ -61,10 +82,11 @@ export const deleteHint = async (id: string) => {
 
 const HintApiRepository = {
   findAll: findAll,
-  findUnique: findUnique,
+  findHintData: findHintData,
   create: create,
   deleteHint: deleteHint,
   findUserHints: findUserHints,
+  update: update,
 };
 
 export default HintApiRepository;

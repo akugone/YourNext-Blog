@@ -17,7 +17,7 @@ const CreateHint = () => {
     // TODO security breach the userId should no be handle by the client
 
     try {
-      const response = await HintApiRepository.create(post.hint, post.tag);
+      await HintApiRepository.create(post.hint, post.tag);
 
       router.push('/');
     } catch (error) {
