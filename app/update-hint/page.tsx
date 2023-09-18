@@ -19,14 +19,6 @@ const UpdateHint = () => {
 
       const res = await HintApiRepository.findHintData(hintId);
 
-      console.log('response', res);
-
-      console.log('update hint page', {
-        hintId: hintId,
-        post_hint: res.hint,
-        post_tag: res.tags,
-      });
-
       setPost({
         hint: res.hint || '',
         tag: res.tags || '',

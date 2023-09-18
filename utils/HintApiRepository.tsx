@@ -51,8 +51,6 @@ export const create = async (hint: string, tag: string) => {
 
 // update a hint in the database with the route api/hint/update
 export const update = async (id: string, hint: string, tag: string) => {
-  console.log(id, hint, tag);
-
   const response = await fetch(`${resource}/${id}`, {
     method: 'PATCH',
     body: JSON.stringify({
@@ -60,8 +58,6 @@ export const update = async (id: string, hint: string, tag: string) => {
       tag: tag,
     }),
   });
-
-  console.log(response.status);
 
   if (response.status != 200) {
     throw new Error('Failed to update hint');
@@ -75,8 +71,6 @@ export const deleteHint = async (id: string) => {
   const response = await fetch(`${resource}/${id}`, {
     method: 'DELETE',
   });
-
-  console.log(response.status);
 
   return await response.json();
 };

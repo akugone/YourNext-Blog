@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import GithubProvider from 'next-auth/providers/github';
+import GithubProvider, { GithubProfile } from 'next-auth/providers/github';
 import type { NextAuthOptions } from 'next-auth';
 import prisma from '@/app/libs/prismadb';
 import { User } from '@prisma/client';
@@ -16,6 +16,14 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
     GithubProvider({
+      profile(profile: GithubProfile) {
+        return {
+          ...profile,
+          role: profile.role ?? 'user',
+          id: profile.id.toString(),
+          image: profile.avatar_url,
+        };
+      },
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
     }),
@@ -50,11 +58,18 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    session({ session, user }) {
+    async session({ session, user }) {
       if (user?.id && session.user) {
         session.user.id = user.id;
+        session.user.role = user.role;
       }
       return session;
+    },
+    async jwt({ token, user }) {
+      if (user?.id) {
+        token.role = user.role;
+      }
+      return token;
     },
   },
 

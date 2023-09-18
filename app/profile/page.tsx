@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Hint, Session } from '@prisma/client';
+import { Hint } from '@prisma/client';
 
 import Profile from '@/components/Profile';
 import HintApiRepository from '@/utils/HintApiRepository';

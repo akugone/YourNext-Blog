@@ -89,6 +89,8 @@ const Nav = () => {
                       className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'>
                       My Profile
                     </Link>
+                    {/* @note test the role here  */}
+                    <p>{session.data?.user.role}</p>
                     <hr />
                     <MenuItem label='Logout' onClick={() => signOut()} />
                   </>
