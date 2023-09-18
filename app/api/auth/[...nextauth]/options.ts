@@ -1,4 +1,3 @@
-import NextAuth from 'next-auth';
 import bcrypt from 'bcrypt';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GoogleProvider from 'next-auth/providers/google';
@@ -54,12 +53,6 @@ export const authOptions: NextAuthOptions = {
         session.user.id = user.id;
       }
       return session;
-    },
-    async jwt({ token, user }) {
-      if (user?.id) {
-        token.id = user.id;
-      }
-      return token;
     },
   },
 
