@@ -22,9 +22,9 @@ export async function POST(request: Request) {
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const userSchema = z.object({
-      email: z.coerce.string().email(),
-      name: z.coerce.string().min(1).max(255),
-      password: z.coerce.string().min(8).max(255),
+      email: z.string().email(),
+      name: z.string().min(1).max(255),
+      password: z.string().min(8).max(255),
     });
 
     userSchema.parse({ email, name, password });
