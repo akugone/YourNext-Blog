@@ -28,7 +28,6 @@ export const GET = async (request: Request, { params }: ParamsType) => {
   }
 };
 
-// @note Why we can't delete request even if it not used?
 export const DELETE = async (request: Request, { params }: ParamsType) => {
   try {
     const { id } = params;

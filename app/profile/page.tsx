@@ -12,19 +12,20 @@ const MyProfile = () => {
   const router = useRouter();
 
   // we get in the session the user data session.user.email / session.user.image / session.user.name / session.user.id
-  // @note check the typing cause Session is not the same as
   const { data: session } = useSession();
-  const userSession = session?.user as Session;
-
   const [myPosts, setMyPosts] = useState<Hint[]>([]);
 
   useEffect(() => {
+    if (!session?.user) {
+      return;
+    }
+
     const fetchPosts = async () => {
-      const response = await HintApiRepository.findUserHints(userSession?.id);
+      const response = await HintApiRepository.findUserHints(session.user.id);
       setMyPosts(response);
     };
 
-    if (session?.user?.id) fetchPosts();
+    fetchPosts();
   }, [session?.user?.id]);
 
   const handleEdit = (post: Hint) => {
