@@ -43,12 +43,13 @@ https://www.loom.com/share/d9adb4ba31234b32b857946610494d88?sid=cd97197e-3ba3-40
 - [x] My Profile page
 - [x] Search bar/ filtering by tag or text
 - [x] Web3 Login (RainbowKit/ Wagmi) => web3-login branch
+- [x] Finish typing
+- [x] Integrate Zod
 
 **WIP**
 
 > PRIO 1
-- [ ] Finish typing
-- [ ] Integrate Zod
+- [ ] Add Middleware pour the auth managment
 - [ ] Add share on social network
 - [ ] Clean SEO
 - [ ] Add default pics generator from YourDall-E project
