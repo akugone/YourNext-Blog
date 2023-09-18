@@ -2,10 +2,12 @@ import { NextResponse } from 'next/server';
 import prisma from '@/app/libs/prismadb';
 
 interface Params {
-  id: string;
+  params: {
+    id: string;
+  };
 }
 
-export const GET = async (request: Request, { params }: any) => {
+export const GET = async (request: Request, { params }: Params) => {
   try {
     const userId = params.id as string;
 

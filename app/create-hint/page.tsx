@@ -5,16 +5,19 @@ import { useRouter } from 'next/navigation';
 import Form from '@/components/Form';
 import HintApiRepository from '@/utils/HintApiRepository';
 
+interface CreateHintProps {
+  hint: string;
+  tag: string;
+}
+
 const CreateHint = () => {
   const router = useRouter();
-  const [submitting, setIsSubmitting] = useState(false);
-  const [post, setPost] = useState({ hint: '', tag: '' });
+  const [submitting, setIsSubmitting] = useState<boolean>(false);
+  const [post, setPost] = useState<CreateHintProps>({ hint: '', tag: '' });
 
-  const createHint = async e => {
+  const createHint = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    // TODO security breach the userId should no be handle by the client
 
     try {
       await HintApiRepository.create(post.hint, post.tag);

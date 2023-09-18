@@ -2,14 +2,19 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-
 import Profile from '@/components/Profile';
+import { Hint } from '@prisma/client';
 
-const UserProfile = ({ params }: any) => {
+interface UserProfileProps {
+  params: {
+    id: string;
+  };
+}
+
+const UserProfile = ({ params }: UserProfileProps) => {
   const searchParams = useSearchParams();
   const userName = searchParams.get('name');
-
-  const [userPosts, setUserPosts] = useState([]);
+  const [userPosts, setUserPosts] = useState<Hint[]>([]);
 
   useEffect(() => {
     const fetchPosts = async () => {

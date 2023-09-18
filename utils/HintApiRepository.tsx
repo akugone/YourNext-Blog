@@ -3,6 +3,7 @@ const resourceUser = '/api/user';
 
 import type { Hint, User } from '@prisma/client';
 
+// @todo : refacto by creating a typing sheet
 export type HintWithAuthor = Hint & {
   author: User;
 };

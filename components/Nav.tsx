@@ -1,22 +1,18 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { use, useCallback, useState } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import MenuItem from './MenuItem';
 import Avatar from './Avatar';
 import Link from 'next/link';
-import { SafeUser } from '@/app/types';
 
-interface UserMenuProps {
-  currentUser?: SafeUser | null;
-}
-
-// todo : comprendre React.FC<UserMenuProps>
-const Nav: React.FC<UserMenuProps> = ({ currentUser }) => {
+const Nav = () => {
+  const session = useSession();
+  const currentUser = session?.data?.user;
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
   const [isOpen, setIsOpen] = useState(false);

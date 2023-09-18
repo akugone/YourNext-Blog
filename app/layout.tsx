@@ -6,7 +6,6 @@ import { Inter } from 'next/font/google';
 import RegisterModal from '@/components/modals/RegisterModal';
 import LoginModal from '@/components/modals/LoginModal';
 import ToasterProvider from '@/providers/ToasterProvider';
-import getCurrentUser from './actions/getCurrentUser';
 
 // font setup
 const inter = Inter({
@@ -21,7 +20,6 @@ export const metadata = {
 };
 
 const Rootlayout = async ({ children }: { children: React.ReactNode }) => {
-  const currentUser = await getCurrentUser();
   return (
     <html lang='en' className={inter.className}>
       <body>
@@ -33,7 +31,7 @@ const Rootlayout = async ({ children }: { children: React.ReactNode }) => {
             <ToasterProvider />
             <LoginModal />
             <RegisterModal />
-            <Nav currentUser={currentUser} />
+            <Nav />
             {children}
           </main>
         </SessionProvider>
