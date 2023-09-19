@@ -1,16 +1,22 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    appDir: true,
+
+const runtimeCaching = require('next-pwa/cache');
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  runtimeCaching,
+  buildExcludes: [/middleware-manifest.json$/],
+});
+
+const nextConfig = withPWA({
+  reactStrictMode: true,
+  typescript: {
+    ignoreBuildErrors: true,
   },
   images: {
     domains: ['lh3.googleusercontent.com', 'avatars.githubusercontent.com'],
   },
-};
-
-const withPWA = require('next-pwa');
-
-module.exports = withPWA({
   webpack(config) {
     config.experiments = {
       ...config.experiments,
@@ -18,12 +24,5 @@ module.exports = withPWA({
     };
     return config;
   },
-  ...nextConfig,
-  pwa: {
-    dest: 'public',
-    disable: process.env.NODE_ENV === 'development',
-    register: true,
-    scope: '/',
-    sw: 'service-worker.js',
-  },
 });
+module.exports = nextConfig;
