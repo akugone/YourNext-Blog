@@ -2,11 +2,15 @@
 const nextConfig = {
   experimental: {
     appDir: true,
-    serverComponentsExternalPackages: ['mongoose'],
   },
   images: {
     domains: ['lh3.googleusercontent.com', 'avatars.githubusercontent.com'],
   },
+};
+
+const withPWA = require('next-pwa');
+
+module.exports = withPWA({
   webpack(config) {
     config.experiments = {
       ...config.experiments,
@@ -14,6 +18,12 @@ const nextConfig = {
     };
     return config;
   },
-};
-
-module.exports = nextConfig;
+  ...nextConfig,
+  pwa: {
+    dest: 'public',
+    disable: process.env.NODE_ENV === 'development',
+    register: true,
+    scope: '/',
+    sw: 'service-worker.js',
+  },
+});
